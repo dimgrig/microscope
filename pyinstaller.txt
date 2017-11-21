@@ -1,0 +1,1 @@
+pyinstaller microscope_v2.py --noconfirm --onefile --windowed
