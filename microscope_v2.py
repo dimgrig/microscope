@@ -1,9 +1,12 @@
 #pip install pywinauto
 import cv2
+from datetime import datetime
 import os
 from pywinauto import application
 from pywinauto import mouse
 
+
+filename = ""
 
 def open_Microhardness():
     """
@@ -26,7 +29,9 @@ def open_Microhardness():
     dlg = app.window(best_match='Открытие')
     dlg.Wait('ready')
     directory = os.path.dirname(os.path.abspath(__file__))
-    dlg['Edit'].SetText(os.path.join(directory, 'screen.jpg'))
+    global filename
+    #print("Открытие файла: ", filename)
+    dlg['Edit'].SetText(os.path.join(directory, filename))
     btn = dlg.ChildWindow(best_match='Открыть').Click()
     btn.Click()
 
@@ -49,7 +54,11 @@ while(True):
     cv2.imshow('frame',gray)
 
     if cv2.waitKey(10) & 0xFF == ord('s'):
-        cv2.imwrite('screen.jpg',frame)
+        timestamp = datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S")
+        timestamp = timestamp.replace(".", "_").replace(" ", "_").replace(":", "_")
+        filename = timestamp + '.jpg'
+        #print("Сохранение файла: ", filename)
+        cv2.imwrite(filename,frame)
         open = 1
         break
     else:
