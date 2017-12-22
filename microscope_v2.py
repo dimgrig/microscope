@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 from pywinauto import application
 from pywinauto import mouse
-
+import win32api
 
 filename = ""
 
@@ -42,11 +42,16 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 open = 0
+
 while(True):
 
     # Capture frame-by-frameq
     ret, frame = cap.read()
 
+    if ret == False:      
+        win32api.MessageBox(0, 'No microscope connected', 'Error')
+        break;
+    
     # Our operations on the frame come here
     gray = cv2.cvtColor(frame, cv2.COLORMAP_AUTUMN)
 
